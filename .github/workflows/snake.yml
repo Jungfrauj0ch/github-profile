@@ -5,16 +5,19 @@ on:
   schedule:
     - cron: "0 0 * * *" 
   
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
+
+# PROACTIVE FIX: Explicitly grant the Action permission to write to your repository
+permissions:
+  contents: write
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      # Upgraded to v4 to fix the Node.js 20 warning
+      - uses: actions/checkout@v4
       
-      # Generates the snake
       - uses: Platane/snk@v3
         with:
           github_user_name: jungfrauj0ch
@@ -22,8 +25,8 @@ jobs:
             dist/github-contribution-grid-snake.svg
             dist/github-contribution-grid-snake-dark.svg?palette=github-dark
 
-      # Pushes the generated svg to an 'output' branch
-      - uses: crazy-max/ghaction-github-pages@v3.1.0
+      # Upgraded to v4 to fix the Node.js 20 warning
+      - uses: crazy-max/ghaction-github-pages@v4
         with:
           target_branch: output
           build_dir: dist
